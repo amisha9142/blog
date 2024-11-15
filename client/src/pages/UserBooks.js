@@ -3,7 +3,6 @@
 // import BlogCard from "../components/BlogCard";
 // const UserBlogs = () => {
 //   const [blogs, setBlogs] = useState([]);
-
 //   //get user blogs
 //   const getUserBlogs = async () => {
 //     try {
@@ -16,7 +15,6 @@
 //       console.log(error);
 //     }
 //   };
-
 //   useEffect(() => {
 //     getUserBlogs();
 //   }, []);
@@ -41,26 +39,22 @@
 //     </div>
 //   );
 // };
-
 // export default UserBlogs;
 
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import BlogCard from "../components/BlogCard";
-
-const UserBlogs = () => {
+import BookCard from "../components/BookCard";
+const UserBooks = () => {
   const [blogs, setBlogs] = useState([]);
   const [error, setError] = useState(null);
-
   // Get user blogs
   const getUserBlogs = async () => {
     try {
       const id = localStorage.getItem("userId");
       console.log("User ID:", id); // Debugging line
-      const { data } = await axios.get(`http://localhost:5000/api/v1/blog/user-blog/${id}`);
+      const { data } = await axios.get(`http://localhost:5000/api/v1/book/all-book/${id}`);
       console.log("API Response:", data); // Debugging line
-
       if (data?.success) {
         setBlogs(data?.userBlog.blogs);
       } else {
@@ -71,17 +65,15 @@ const UserBlogs = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     getUserBlogs();
   }, []);
-
   return (
     <div>
       {error && <h1>{error}</h1>}
       {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
-          <BlogCard
+          <BookCard
             key={blog._id} // Don't forget the key prop
             id={blog._id}
             isUser={true}
@@ -98,5 +90,4 @@ const UserBlogs = () => {
     </div>
   );
 };
-
-export default UserBlogs;
+export default UserBooks;

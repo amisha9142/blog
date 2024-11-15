@@ -4,8 +4,8 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
 
-const BlogDetails = () => {
-  const [blog, setBlog] = useState({});
+const BookDetails = () => {
+  const [book, setBook] = useState({});
   const id = useParams().id;
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
@@ -14,16 +14,16 @@ const BlogDetails = () => {
     image: "",
   });
 
-  // Fetch blog details
-  const getBlogDetail = async () => {
+  // Fetch book details
+  const getBookDetail = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:5000/api/v1/blog/get-blog/${id}`);
+      const { data } = await axios.get(`http://localhost:5000/api/v1/book/get-book/${id}`);
       if (data?.success) {
-        setBlog(data.blog);
+        setBook(data.book);
         setInputs({
-          title: data.blog.title,
-          description: data.blog.description,
-          image: data.blog.image,
+          title: data.book.title,
+          description: data.book.description,
+          image: data.book.image,
         });
       }
     } catch (error) {
@@ -32,7 +32,7 @@ const BlogDetails = () => {
   };
 
   useEffect(() => {
-    getBlogDetail();
+    getBookDetail();
   }, [id]);
 
   // Handle input changes
@@ -47,15 +47,15 @@ const BlogDetails = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.put(`http://localhost:5000/api/v1/blog/update-blog/${id}`, {
+      const { data } = await axios.put(`http://localhost:5000/api/v1/book/update-book/${id}`, {
         title: inputs.title,
         description: inputs.description,
         image: inputs.image,
         user: id,
       });
       if (data?.success) {
-        toast.success("Blog Updated");
-        navigate("/my-blogs");
+        toast.success("Book Updated");
+        navigate("/my-books");
       }
     } catch (error) {
       console.log(error);
@@ -86,7 +86,7 @@ const BlogDetails = () => {
         color="#333"
         sx={{ mb: 2, fontFamily: "Arial, sans-serif" }}
       >
-        Update Blog Post
+        Update Book Details
       </Typography>
 
       <InputLabel
@@ -160,10 +160,10 @@ const BlogDetails = () => {
           },
         }}
       >
-        Update Blog
+        Update Book
       </Button>
     </Box>
   );
 };
 
-export default BlogDetails;
+export default BookDetails;
